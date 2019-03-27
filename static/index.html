@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+	<head>
+		<title>MAPcore Integrated Webapp Test Page</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>			
+			body {
+				font-family: Monospace;
+				color: #fff;
+				margin: 0px;
+				overflow: hidden;
+		    background-position: center;
+		    background-repeat: no-repeat;
+		    background-size: cover;
+		    width: 100%;
+		    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+		    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+		    width: fill-available;
+			}
+			#info {
+				color: #fff;
+				position: absolute;
+				top: 10px;
+				width: 100%;
+				text-align: center;
+				z-index: 100;
+				display:block;
+			}
+			#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
+		</style>
+	</head>
+
+	<body  style="height:100%;">
+		<div id="main" style="height:100%;width:100%;position: absolute;">
+		</div>
+		<script src="../build/mapcorewebapp.js"></script>
+	</body>
+</html>

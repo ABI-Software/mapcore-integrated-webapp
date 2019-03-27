@@ -1,0 +1,53 @@
+{
+  "name": "mapcoreintegratedwebapp",
+  "version": "0.0.1alpha",
+  "description": "MAPcore Integrated Webapp",
+  "main": "build/mapcorewebapp.js",
+  "files": [
+    "package.json",
+    "LICENSE.txt",
+    "README.md",
+    "build/mapcorewebapp.js",
+    "build/mapcorewebapp.min.js",
+    "webpack.config.js"
+  ],
+  "scripts": {
+    "build": "webpack --mode=none",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ABI-Software/mapcore-integrated-webapp.git"
+  },
+  "keywords": [
+    "library",
+    "webgl",
+    "3d",
+    "zincjs",
+    "physiome",
+    "bioengineering",
+    "modelling",
+    "flatmaps"
+  ],
+  "author": "Alan Wu <alan.wu@auckland.ac.nz>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ABI-Software/mapcore-integrated-webapp/issues"
+  },
+  "homepage": "https://github.com/ABI-Software/mapcore-integrated-webapp",
+  "devDependencies": {
+    "file-loader": "^1.1.11",
+    "html-loader": "^0.5.5",
+    "jquery": "^3.3.1",
+    "raw-loader": "^0.5.1",
+    "style-loader": "^0.21.0",
+    "uglifyjs-webpack-plugin": "^1.2.5",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.1",
+    "webpack-jquery-ui": "^1.0.0"
+  },
+  "dependencies": {
+    "physiomeportal": "^0.3.4alpha"
+  }
+}
