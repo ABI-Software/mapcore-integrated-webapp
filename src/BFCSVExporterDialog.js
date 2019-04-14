@@ -1,17 +1,14 @@
-require('./styles/flatmapsDialog.css');
-var flatmap = require("./flatmaps/src/flatmap");
 var physiomeportal = require("physiomeportal");
-var utils = require('./flatmaps/src/utils.js');
 
-var FlatmapsModule = function() {
+var BFCSVExporterModule = function() {
 	  (physiomeportal.BaseModule).call(this);
-	  this.typeName = "Flatmaps";
+	  this.typeName = "BlackfynnCSVExporter";
 }
 
-FlatmapsModule.prototype = Object.create(physiomeportal.BaseModule.prototype);
-exports.FlatmapsModule = FlatmapsModule;
+BFCSVExporterModule.prototype = Object.create(physiomeportal.BaseModule.prototype);
+exports.BFCSVExporterModule = BFCSVExporterModule;
 
-var FlatmapsDialog = function(moduleIn, parentIn) {
+var BFCSVExporterDialog = function(moduleIn, parentIn) {
   (physiomeportal.BaseDialog).call(this);
   this.parent = parentIn;
   this.module = moduleIn;
@@ -86,39 +83,13 @@ var FlatmapsDialog = function(moduleIn, parentIn) {
   this.addNotifier = function(eventNotifier) {
     eventNotifiers.push(eventNotifier);
   }
-
-  var blankMap = {
-      "id": "blank",
-      "size": [10000, 10000],
-      "editable": true,
-      "layerSwitcher": true
-  };
-
-  function loadMap(mapId, htmlElementId)
-  {
-      fetch(utils.absoluteUrl(`${mapId}/`+ "index.json"), {
-          headers: { "Accept": "application/json; charset=utf-8" },
-          method: 'GET'
-      })
-      .then(response => {
-          if (response.ok) {
-              return response.json();
-          }
-          throw new Error(`Couldn't fetch '${mapId}' map`);
-      })
-      .then(json => {
-          return new flatmap.FlatMap(htmlElementId, json);
-      });
-  }
   
-  var initialiseFlatmapsDialog = function() {
-
-      loadMap('body', 'map1');
-
+  var initialiseBlackfynnCSVExporterDialog = function() {
+	    var bfCSVExporter = require('blackfynn-csv-exporter');
   }
   
   
-  var flatmapsChangedCallback = function() {
+  var bfCSVExporterChangedCallback = function() {
     return function(module, change) {
       if (change === physiomeportal.MODULE_CHANGE.NAME_CHANGED) {
         _myInstance.setTitle(module.getName());
@@ -127,13 +98,13 @@ var FlatmapsDialog = function(moduleIn, parentIn) {
   }
 
   var initialise = function() {
-    _myInstance.create(require("./flatmaps/index.html"));
-    _myInstance.module.addChangedCallback(flatmapsChangedCallback());
-    initialiseFlatmapsDialog();
+    _myInstance.create(require("blackfynn-csv-exporter/index.html"));
+    _myInstance.module.addChangedCallback(bfCSVExporterChangedCallback());
+    initialiseBlackfynnCSVExporterDialog();
   }
   
   initialise();
 }
 
-FlatmapsDialog.prototype = Object.create(physiomeportal.BaseDialog.prototype);
-exports.FlatmapsDialog = FlatmapsDialog;
+BFCSVExporterDialog.prototype = Object.create(physiomeportal.BaseDialog.prototype);
+exports.BFCSVExporterDialog = BFCSVExporterDialog;

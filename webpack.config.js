@@ -25,16 +25,7 @@ module.exports = {
           name:'[name].[ext]',
           outputPath:'images/' }
       },
-      { test: /\.(vs|fs)$/i,
-        loaders: [
-          'raw-loader'
-        ]
-      },
       { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
-//      {
-//        test: /node_modules/,
-//        loader: 'ify-loader'
-//      }
     ]
   },
   plugins: [
@@ -43,12 +34,6 @@ module.exports = {
       uglifyOptions: {
         compress: true
       }
-    }),
-    new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery",
-      "window.jQuery": "jquery",
-      "window.$": "jquery"
     })
   ]
 };
