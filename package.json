@@ -36,17 +36,19 @@
   },
   "homepage": "https://github.com/ABI-Software/mapcore-integrated-webapp",
   "devDependencies": {
+    "blackfynn-csv-exporter": "^1.0.14",
+    "broadcast-channel": "^2.1.10",
+    "css-loader": "^2.1.1",
     "file-loader": "^1.1.11",
     "html-loader": "^0.5.5",
+    "physiomeportal": "^0.3.5alpha",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.21.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
-    "blackfynn-csv-exporter": "^1.0.9",
-    "css-loader": "^2.1.1",
-    "physiomeportal": "^0.3.5alpha"
+    "fdikbquery": "^0.0.2-alpha"
   },
   "dependencies": {}
 }

@@ -17,38 +17,7 @@ var FlatmapsDialog = function(moduleIn, parentIn) {
   this.module = moduleIn;
   var eventNotifiers = [];
   var _myInstance = this;
-  
-  var selectedCallback = function(){
-    return function(obj) {
-      console.log(obj)
-      if (obj && obj.__data && obj.__data.name) {
-        var eventType = physiomeportal.EVENT_TYPE.SELECTED;
-        for (var i = 0; i < eventNotifiers.length; i++) {
-          eventNotifiers[i].publish(_myInstance, eventType, [obj.__data.name]);
-        }
-      }
-    }
-  }
-  
-  var highlightedCallback = function(){
-    return function(obj) {
-      console.log(obj)
-      if (obj && obj.__data && obj.__data.name) {
-        var eventType = physiomeportal.EVENT_TYPE.HIGHLIGHTED;
-        for (var i = 0; i < eventNotifiers.length; i++) {
-          eventNotifiers[i].publish(_myInstance, eventType, [obj.__data.name]);
-        }
-      }
-    }
-  }
-  
-  this.findLyphByName = function(name) {
-    var found = component._graphData.lyphs.find(function(lyph) {
-      return lyph.name === name;
-    })
-    
-    return found;
-  }
+  var channel = undefined;
   
   this.getLyphLayerFromLyphName = function(name) {
     var lyph = _myInstance.findLyphByName(name);
@@ -57,31 +26,6 @@ var FlatmapsDialog = function(moduleIn, parentIn) {
     return lyph;
   }
   
-  this.setSelectedByGroupName = function(name) {
-    if (name) {
-      var obj = _myInstance.findLyphByName(name);
-      if (obj && obj.viewObjects) {
-        if (component.selected != obj.viewObjects.main)
-          component.selected = obj.viewObjects.main;
-      } else
-        component.selected = undefined;
-    } else {
-      component.selected = undefined;
-    }
-  }
-  
-  this.setHighlightedByGroupName = function(name) {
-    if (name) {
-      var obj = _myInstance.findLyphByName(name);
-      if (obj && obj.viewObjects) {
-        if (component.highlighted != obj.viewObjects.main)
-          component.highlighted = obj.viewObjects.main;
-      } else
-        component.highlighted = undefined;
-    } else {
-      component.highlighted = undefined;
-    }
-  }
   
   this.addNotifier = function(eventNotifier) {
     eventNotifiers.push(eventNotifier);
@@ -94,8 +38,7 @@ var FlatmapsDialog = function(moduleIn, parentIn) {
       "layerSwitcher": true
   };
 
-  function loadMap(mapId, htmlElementId)
-  {
+  var loadMap = function(mapId, htmlElementId) {
       fetch(utils.absoluteUrl(`${mapId}/`+ "index.json"), {
           headers: { "Accept": "application/json; charset=utf-8" },
           method: 'GET'
@@ -111,10 +54,31 @@ var FlatmapsDialog = function(moduleIn, parentIn) {
       });
   }
   
+  var broadcastCallback = function(message) {
+	  console.log(message);
+      var eventType = physiomeportal.EVENT_TYPE.SELECTED;
+	  var annotation = [{}];
+	  annotation[0].data = {};
+      if (message.type == "FMA:7195") {
+	    annotation[0].data.part = "Lung";
+	    for (var i = 0; i < eventNotifiers.length; i++) {
+	      eventNotifiers[i].publish(_myInstance, eventType, annotation);
+	    }
+      } else if (message.type == "FMA:7197") {
+	    annotation[0].data.part = "Liver";
+	    for (var i = 0; i < eventNotifiers.length; i++) {
+		  eventNotifiers[i].publish(_myInstance, eventType, annotation);
+	    }
+      }
+  } 
+  
   var initialiseFlatmapsDialog = function() {
-
       loadMap('body', 'map1');
-
+      loadMap('functional', 'map2');
+      loadMap('saucerman', 'map3');
+      var BroadcastChannel = require('broadcast-channel');
+      channel = new BroadcastChannel.default('sparc-portal');
+      channel.addEventListener('message', broadcastCallback);
   }
   
   
