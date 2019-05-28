@@ -34,9 +34,22 @@ var FDIKBQueryDialog = function(moduleIn, parentIn) {
     eventNotifiers.push(eventNotifier);
   }
   
+  var onQueryCallback = function() {
+	  return function(msg) {
+	      var eventType = physiomeportal.EVENT_TYPE.SELECTED;
+		  var annotation = [{}];
+		  annotation[0].data = {};
+ 	      annotation[0].data.part = msg.q;
+		  for (var i = 0; i < eventNotifiers.length; i++) {
+		    eventNotifiers[i].publish(_myInstance, eventType, annotation);
+		  }
+	  }
+  }
+  
   var initialiseFDIKBQueryDialog = function() {
 		var drawingDiv = _myInstance.container[0].querySelectorAll("#kb_query_div")[0];
 		_myInstance.kbQuery = new FDI_KB_Query(drawingDiv);
+		_myInstance.kbQuery.addCallbackOnQuery(onQueryCallback());
   }
   
   var FDIKBQueryChangedCallback = function() {

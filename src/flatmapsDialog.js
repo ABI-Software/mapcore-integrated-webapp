@@ -17,7 +17,6 @@ var FlatmapsDialog = function(moduleIn, parentIn) {
   this.module = moduleIn;
   var eventNotifiers = [];
   var _myInstance = this;
-  var channel = undefined;
   
   this.getLyphLayerFromLyphName = function(name) {
     var lyph = _myInstance.findLyphByName(name);
@@ -55,12 +54,11 @@ var FlatmapsDialog = function(moduleIn, parentIn) {
   }
   
   var broadcastCallback = function(message) {
-	  console.log(message);
       var eventType = physiomeportal.EVENT_TYPE.SELECTED;
 	  var annotation = [{}];
 	  annotation[0].data = {};
       if (message.type == "FMA:7195") {
-	    annotation[0].data.part = "Lung";
+	    annotation[0].data.part = "Lungs";
 	    for (var i = 0; i < eventNotifiers.length; i++) {
 	      eventNotifiers[i].publish(_myInstance, eventType, annotation);
 	    }
@@ -70,15 +68,16 @@ var FlatmapsDialog = function(moduleIn, parentIn) {
 		  eventNotifiers[i].publish(_myInstance, eventType, annotation);
 	    }
       }
-  } 
+  }
+  
+  this.initaliseBroadcastCallback = function(channel) {
+      channel.addEventListener('message', broadcastCallback);
+  }
   
   var initialiseFlatmapsDialog = function() {
       loadMap('body', 'map1');
       loadMap('functional', 'map2');
       loadMap('saucerman', 'map3');
-      var BroadcastChannel = require('broadcast-channel');
-      channel = new BroadcastChannel.default('sparc-portal');
-      channel.addEventListener('message', broadcastCallback);
   }
   
   
