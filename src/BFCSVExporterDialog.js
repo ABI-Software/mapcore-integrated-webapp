@@ -1,8 +1,19 @@
 var physiomeportal = require("physiomeportal");
+var BlackfynnManager = require('blackfynn-csv-exporter').BlackfynnManager;
 
 var BFCSVExporterModule = function() {
 	  (physiomeportal.BaseModule).call(this);
 	  this.typeName = "BlackfynnCSVExporter";
+	  var _this = this;
+	  
+	  this.initialise = function() {
+		  _this.blackfynnManger = new BlackfynnManager();	  
+	  }
+	  
+	  this.openCSV = function(url) {
+		  _this.blackfynnManger.openCSV(url);
+		  _this.blackfynnManger.updateSize();
+	  }
 }
 
 BFCSVExporterModule.prototype = Object.create(physiomeportal.BaseModule.prototype);
@@ -19,10 +30,19 @@ var BFCSVExporterDialog = function(moduleIn, parentIn) {
     eventNotifiers.push(eventNotifier);
   }
   
-  var initialiseBlackfynnCSVExporterDialog = function() {
-	    var bfCSVExporter = require('blackfynn-csv-exporter');
-  }
+  var resizeCallback = function() {
+	  return function() {
+		  _myInstance.module.blackfynnManger.updateSize();
+	  }
+  }  
   
+  var initialiseBlackfynnCSVExporterDialog = function() {
+	  _myInstance.module.initialise();
+	  _myInstance.module.blackfynnManger.initialiseBlackfynnPanel();
+	  _myInstance.resizeStopCallbacks.push(resizeCallback());
+	  _myInstance.module.blackfynnManger.updateSize();
+  }
+
   var bfCSVExporterChangedCallback = function() {
     return function(module, change) {
       if (change === physiomeportal.MODULE_CHANGE.NAME_CHANGED) {
@@ -32,7 +52,7 @@ var BFCSVExporterDialog = function(moduleIn, parentIn) {
   }
 
   var initialise = function() {
-    _myInstance.create(require("blackfynn-csv-exporter/index.html"));
+    _myInstance.create(require("./snippets/bf.html"));
     _myInstance.module.addChangedCallback(bfCSVExporterChangedCallback());
     initialiseBlackfynnCSVExporterDialog();
   }
