@@ -24,8 +24,7 @@ var FlatmapsDialog = function(moduleIn, parentIn, options) {
 	  if (options.functionalId)
 		  functionalId = options.functionId;
   }  
-  (physiomeportal.BaseDialog).call(this);
-  this.parent = parentIn;
+  (physiomeportal.BaseDialog).call(this, parentIn, options);
   this.module = moduleIn;
   var eventNotifiers = [];
   var channel= undefined;
@@ -109,8 +108,8 @@ var FlatmapsDialog = function(moduleIn, parentIn, options) {
   
   var initialiseFlatmapsDialog = function() {
       loadMap(bodyId, 'map1');
-      loadMap(saucemanId, 'map2');
-      loadMap(functionalId, 'map3');
+ //     loadMap(saucemanId, 'map2');
+ //     loadMap(functionalId, 'map3');
       _myInstance.resizeStopCallbacks.push(resizeCallback());
   }
   
@@ -124,7 +123,7 @@ var FlatmapsDialog = function(moduleIn, parentIn, options) {
   }
 
   var initialise = function() {
-    _myInstance.create(require("./flatmaps/index.html"));
+    _myInstance.create(require("./snippets/flatmaps.html"));
     _myInstance.module.addChangedCallback(flatmapsChangedCallback());
     initialiseFlatmapsDialog();
   }

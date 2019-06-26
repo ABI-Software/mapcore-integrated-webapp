@@ -42,7 +42,7 @@
     "fdikbquery": "^0.0.4-alpha",
     "file-loader": "^1.1.11",
     "html-loader": "^0.5.5",
-    "physiomeportal": "^0.3.7alpha",
+    "physiomeportal": "^0.3.9alpha",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.21.0",
     "uglifyjs-webpack-plugin": "^1.2.5",

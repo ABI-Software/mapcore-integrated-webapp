@@ -19,9 +19,8 @@ var BFCSVExporterModule = function() {
 BFCSVExporterModule.prototype = Object.create(physiomeportal.BaseModule.prototype);
 exports.BFCSVExporterModule = BFCSVExporterModule;
 
-var BFCSVExporterDialog = function(moduleIn, parentIn) {
-  (physiomeportal.BaseDialog).call(this);
-  this.parent = parentIn;
+var BFCSVExporterDialog = function(moduleIn, parentIn, options) {
+  (physiomeportal.BaseDialog).call(this, parentIn, options);
   this.module = moduleIn;
   var eventNotifiers = [];
   var _myInstance = this;
