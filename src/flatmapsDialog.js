@@ -13,7 +13,7 @@ FlatmapsModule.prototype = Object.create(physiomeportal.BaseModule.prototype);
 exports.FlatmapsModule = FlatmapsModule;
 
 var FlatmapsDialog = function(moduleIn, parentIn, options) {
-  var bodyId = "static/body";
+  var bodyId = "demo";
   var saucemanId = "static/saucerman";
   var functionalId = "static/functional";
   if (options) {
@@ -107,7 +107,7 @@ var FlatmapsDialog = function(moduleIn, parentIn, options) {
   }
   
   var initialiseFlatmapsDialog = function() {
-      loadMap(bodyId, 'map1');
+	  flatmap.loadMap(bodyId, 'map1');
  //     loadMap(saucemanId, 'map2');
  //     loadMap(functionalId, 'map3');
       _myInstance.resizeStopCallbacks.push(resizeCallback());
