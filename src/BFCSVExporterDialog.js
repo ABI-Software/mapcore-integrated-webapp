@@ -11,8 +11,9 @@ var BFCSVExporterModule = function() {
 	  }
 	  
 	  this.openCSV = function(url) {
-		  _this.blackfynnManger.openCSV(url);
-		  _this.blackfynnManger.updateSize();
+		  _this.blackfynnManger.openCSV(url).then(() => {
+			  _this.blackfynnManger.updateSize();
+		  });
 	  }
 }
 
@@ -39,7 +40,7 @@ var BFCSVExporterDialog = function(moduleIn, parentIn, options) {
 	  _myInstance.module.initialise();
 	  _myInstance.module.blackfynnManger.initialiseBlackfynnPanel();
 	  _myInstance.resizeStopCallbacks.push(resizeCallback());
-	  _myInstance.module.blackfynnManger.updateSize();
+	  //_myInstance.module.blackfynnManger.updateSize();
   }
 
   var bfCSVExporterChangedCallback = function() {
