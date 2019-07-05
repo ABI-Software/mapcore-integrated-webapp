@@ -59,7 +59,8 @@ var FlatmapsDialog = function(moduleIn, parentIn, options) {
   }
 
   var initialiseFlatmapsDialog = function() {
-	  flatmap.loadMap(flatmapEntry, 'map1').then((returnedObject) => {
+	  var promise1 = flatmap.loadMap(flatmapEntry, 'map1',  { fullscreenControl: false, annotatable: false });
+	  promise1.then(function(returnedObject){
 		  mapImp = returnedObject;
 	  });
 	  _myInstance.resizeStopCallbacks.push(resizeCallback());

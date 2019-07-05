@@ -1,19 +1,65 @@
 var physiomeportal = require("physiomeportal");
 var BlackfynnManager = require('blackfynn-csv-exporter').BlackfynnManager;
+var BroadcastChannel = require('broadcast-channel');
 
 var BFCSVExporterModule = function() {
 	  (physiomeportal.BaseModule).call(this);
-	  this.typeName = "BlackfynnCSVExporter";
+	  this.typeName = "Data Viewer";
+	  var bc = undefined;
+	  this.blackfynnManager = undefined;
+	  var state = undefined;
 	  var _this = this;
+	  var onMessage = function(message) {
+		  _this.settingsChanged();
+	  }
 	  
 	  this.initialise = function() {
-		  _this.blackfynnManger = new BlackfynnManager();	  
+		  _this.blackfynnManager = new BlackfynnManager();
+		  _this.blackfynnManager.initialiseBlackfynnPanel();
+		  _this.blackfynnManager.clearChart();
+		  _this.loadFromState(state);
+		  bc = _this.blackfynnManager.openBroadcastChannel("dataviewer");
+		  bc = new BroadcastChannel.default('sparc-portal');
+		  bc.addEventListener('message', onMessage);
+	  }
+	  
+	  this.loadFromState = function(stateIn) {
+		  if (stateIn) {
+			  if (_this.blackfynnManager) {
+				  var string = JSON.stringify(stateIn);
+				  _this.blackfynnManager.loadState(string);
+				  state = undefined;
+			  } else {
+				  state = stateIn;
+			  }
+		  }
 	  }
 	  
 	  this.openCSV = function(url) {
-		  _this.blackfynnManger.openCSV(url).then(() => {
-			  _this.blackfynnManger.updateSize();
+		  _this.blackfynnManager.openCSV(url).then(() => {
+			  _this.blackfynnManager.clearChart(); 
+			  _this.blackfynnManager.plotAll();
+			  _this.settingsChanged();
 		  });
+	  }
+	  
+	  this.exportSettings = function() {
+		  var settingsString = _this.blackfynnManager.exportStateAsString();
+		  if (typeof settingsString === 'string' || settingsString instanceof String) {
+			  var json = JSON.parse(settingsString);
+			  json.dialog = _this.typeName;
+			  return json;
+		  }
+		  return {dialog: _this.typeName};
+	  }
+	  
+	  this.importSettings = function(settings) {
+		  _this.loadFromState(settings);
+	  }
+
+	  this.destroy = function() {
+		  if (bc)
+			  bc.close();
 	  }
 }
 
@@ -32,15 +78,13 @@ var BFCSVExporterDialog = function(moduleIn, parentIn, options) {
   
   var resizeCallback = function() {
 	  return function() {
-		  _myInstance.module.blackfynnManger.updateSize();
+		  _myInstance.module.blackfynnManager.updateSize();
 	  }
   }  
   
   var initialiseBlackfynnCSVExporterDialog = function() {
 	  _myInstance.module.initialise();
-	  _myInstance.module.blackfynnManger.initialiseBlackfynnPanel();
 	  _myInstance.resizeStopCallbacks.push(resizeCallback());
-	  //_myInstance.module.blackfynnManger.updateSize();
   }
 
   var bfCSVExporterChangedCallback = function() {
