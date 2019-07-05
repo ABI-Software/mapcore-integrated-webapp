@@ -1,3 +1,3 @@
-[submodule "src/flatmaps"]
+[submodule "src/flatmap-mvt-viewer"]
 	path = src/flatmaps
-	url = https://github.com/alan-wu/flatmaps.git
+	url = https://github.com/dbrnz/flatmap-mvt-viewer.git
