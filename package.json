@@ -1,6 +1,6 @@
 {
   "name": "mapcoreintegratedwebapp",
-  "version": "0.0.1alpha",
+  "version": "0.0.2alpha",
   "description": "MAPcore Integrated Webapp",
   "main": "build/mapcorewebapp.js",
   "files": [
@@ -36,19 +36,19 @@
   },
   "homepage": "https://github.com/ABI-Software/mapcore-integrated-webapp",
   "devDependencies": {
-    "blackfynn-csv-exporter": "^1.0.14",
+    "blackfynn-csv-exporter": "^1.1.15",
     "broadcast-channel": "^2.1.10",
     "css-loader": "^2.1.1",
+    "fdikbquery": "^0.0.4-alpha",
     "file-loader": "^1.1.11",
     "html-loader": "^0.5.5",
-    "physiomeportal": "^0.3.6alpha",
+    "physiomeportal": "^0.3.11alpha",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.21.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
     "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.1",
-    "fdikbquery": "^0.0.3-alpha"
+    "webpack-cli": "^3.1.1"
   },
   "dependencies": {}
 }

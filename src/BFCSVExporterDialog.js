@@ -1,16 +1,73 @@
 var physiomeportal = require("physiomeportal");
+var BlackfynnManager = require('blackfynn-csv-exporter').BlackfynnManager;
+var BroadcastChannel = require('broadcast-channel');
 
 var BFCSVExporterModule = function() {
 	  (physiomeportal.BaseModule).call(this);
-	  this.typeName = "BlackfynnCSVExporter";
+	  this.typeName = "Data Viewer";
+	  var bc = undefined;
+	  this.blackfynnManager = undefined;
+	  var state = undefined;
+	  var _this = this;
+	  var onMessage = function(message) {
+		  _this.settingsChanged();
+	  }
+	  
+	  this.initialise = function() {
+		  _this.blackfynnManager = new BlackfynnManager();
+		  _this.blackfynnManager.initialiseBlackfynnPanel();
+		  _this.blackfynnManager.clearChart();
+		  _this.loadFromState(state);
+		  bc = _this.blackfynnManager.openBroadcastChannel("dataviewer");
+		  bc = new BroadcastChannel.default('sparc-portal');
+		  bc.addEventListener('message', onMessage);
+	  }
+	  
+	  this.loadFromState = function(stateIn) {
+		  if (stateIn) {
+			  if (_this.blackfynnManager) {
+				  var string = JSON.stringify(stateIn);
+				  _this.blackfynnManager.loadState(string);
+				  state = undefined;
+			  } else {
+				  state = stateIn;
+			  }
+		  }
+	  }
+	  
+	  this.openCSV = function(url) {
+		  _this.blackfynnManager.openCSV(url).then(() => {
+			  _this.blackfynnManager.clearChart(); 
+			  _this.blackfynnManager.plotAll();
+			  _this.settingsChanged();
+		  });
+	  }
+	  
+	  this.exportSettings = function() {
+		  var settingsString = _this.blackfynnManager.exportStateAsString();
+		  if (typeof settingsString === 'string' || settingsString instanceof String) {
+			  var json = JSON.parse(settingsString);
+			  json.dialog = _this.typeName;
+			  return json;
+		  }
+		  return {dialog: _this.typeName};
+	  }
+	  
+	  this.importSettings = function(settings) {
+		  _this.loadFromState(settings);
+	  }
+
+	  this.destroy = function() {
+		  if (bc)
+			  bc.close();
+	  }
 }
 
 BFCSVExporterModule.prototype = Object.create(physiomeportal.BaseModule.prototype);
 exports.BFCSVExporterModule = BFCSVExporterModule;
 
-var BFCSVExporterDialog = function(moduleIn, parentIn) {
-  (physiomeportal.BaseDialog).call(this);
-  this.parent = parentIn;
+var BFCSVExporterDialog = function(moduleIn, parentIn, options) {
+  (physiomeportal.BaseDialog).call(this, parentIn, options);
   this.module = moduleIn;
   var eventNotifiers = [];
   var _myInstance = this;
@@ -19,10 +76,17 @@ var BFCSVExporterDialog = function(moduleIn, parentIn) {
     eventNotifiers.push(eventNotifier);
   }
   
-  var initialiseBlackfynnCSVExporterDialog = function() {
-	    var bfCSVExporter = require('blackfynn-csv-exporter');
-  }
+  var resizeCallback = function() {
+	  return function() {
+		  _myInstance.module.blackfynnManager.updateSize();
+	  }
+  }  
   
+  var initialiseBlackfynnCSVExporterDialog = function() {
+	  _myInstance.module.initialise();
+	  _myInstance.resizeStopCallbacks.push(resizeCallback());
+  }
+
   var bfCSVExporterChangedCallback = function() {
     return function(module, change) {
       if (change === physiomeportal.MODULE_CHANGE.NAME_CHANGED) {
@@ -32,7 +96,7 @@ var BFCSVExporterDialog = function(moduleIn, parentIn) {
   }
 
   var initialise = function() {
-    _myInstance.create(require("blackfynn-csv-exporter/index.html"));
+    _myInstance.create(require("./snippets/bf.html"));
     _myInstance.module.addChangedCallback(bfCSVExporterChangedCallback());
     initialiseBlackfynnCSVExporterDialog();
   }
