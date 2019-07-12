@@ -1,6 +1,6 @@
 {
   "name": "mapcoreintegratedwebapp",
-  "version": "0.0.3alpha",
+  "version": "0.0.4alpha",
   "description": "MAPcore Integrated Webapp",
   "main": "build/mapcorewebapp.js",
   "files": [
