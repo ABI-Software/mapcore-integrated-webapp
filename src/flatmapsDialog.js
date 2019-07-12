@@ -6,14 +6,15 @@ var BroadcastChannel = require('broadcast-channel');
 
 var FlatmapsModule = function() {
 	  (physiomeportal.BaseModule).call(this);
-	  this.typeName = "Flatmaps";
+	  this.typeName = "Flatmap";
 }
 
 FlatmapsModule.prototype = Object.create(physiomeportal.BaseModule.prototype);
 exports.FlatmapsModule = FlatmapsModule;
 
 var FlatmapsDialog = function(moduleIn, parentIn, options) {
-  var flatmapEntry = "demo";
+  var flatmapEntry = "NCBITaxon:9606";
+  mapManager = new flatmap.MapManager();
   if (options) {
 	  if (options.flatmapEntry)
 		  flatmapEntry = options.flatmapEntry;
@@ -36,30 +37,13 @@ var FlatmapsDialog = function(moduleIn, parentIn, options) {
 	  }
   }
 
-  var broadcastCallback = function(message) {
-      var eventType = physiomeportal.EVENT_TYPE.SELECTED;
-	  var annotation = [{}];
-	  annotation[0].data = {};
-      if (message.data.models == "UBERON:0002167" || message.data.models == "UBERON:0002168") {
-	    annotation[0].data.part = "Lungs";
-	    for (var i = 0; i < eventNotifiers.length; i++) {
-	      eventNotifiers[i].publish(_myInstance, eventType, annotation);
-	    }
-      }  else if (message.data.models == "UBERON:0002298") {
-    	  annotation[0].data.part = "Stellate Ganglia";
-    	  for (var i = 0; i < eventNotifiers.length; i++) {
-    		  eventNotifiers[i].publish(_myInstance, eventType, annotation);
-    	  }
-      }
-  }
-
   this.initaliseBroadcastCallback = function() {
 	  channel = new BroadcastChannel.default('sparc-portal');
 	  channel.addEventListener('message', broadcastCallback);
   }
 
   var initialiseFlatmapsDialog = function() {
-	  var promise1 = flatmap.loadMap(flatmapEntry, 'map1',  { fullscreenControl: false, annotatable: false });
+	  var promise1 = mapManager.loadMap(flatmapEntry, 'map1',  { fullscreenControl: false, annotatable: false });
 	  promise1.then(function(returnedObject){
 		  mapImp = returnedObject;
 	  });
