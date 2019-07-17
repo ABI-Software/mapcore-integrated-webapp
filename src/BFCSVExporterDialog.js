@@ -6,7 +6,7 @@ var BFCSVExporterModule = function() {
 	  (physiomeportal.BaseModule).call(this);
 	  this.typeName = "Data Viewer";
 	  var bc = undefined;
-	  this.blackfynnManager = undefined;
+	  this.plotManager = undefined;
 	  var state = undefined;
 	  var _this = this;
 	  var onMessage = function(message) {
@@ -14,18 +14,18 @@ var BFCSVExporterModule = function() {
 	  }
 	  
 	  this.initialise = function(parent) {
-		  _this.blackfynnManager = new BlackfynnManager(parent);
+		  _this.plotManager = new BlackfynnManager(parent);
 		  _this.loadFromState(state);
-		  bc = _this.blackfynnManager.openBroadcastChannel("dataviewer");
+		  bc = _this.plotManager.openBroadcastChannel("dataviewer");
 		  bc = new BroadcastChannel.default('sparc-portal');
 		  bc.addEventListener('message', onMessage);
 	  }
 	  
 	  this.loadFromState = function(stateIn) {
 		  if (stateIn) {
-			  if (_this.blackfynnManager) {
+			  if (_this.plotManager) {
 				  var string = JSON.stringify(stateIn);
-				  _this.blackfynnManager.loadState(string);
+				  _this.plotManager.loadState(string);
 				  state = undefined;
 			  } else {
 				  state = stateIn;
@@ -35,23 +35,23 @@ var BFCSVExporterModule = function() {
 	  
 	  this.loadFromString = function(string) {
 		  if (string) {
-			  if (_this.blackfynnManager) {
-				  _this.blackfynnManager.loadState(string);
+			  if (_this.plotManager) {
+				  _this.plotManager.loadState(string);
 				  state = undefined;
 			  }
 		  }
 	  }
 	  
 	  this.openCSV = function(url) {
-		  _this.blackfynnManager.openCSV(url).then(() => {
-			  _this.blackfynnManager.clearChart(); 
-			  _this.blackfynnManager.plotAll();
+		  _this.plotManager.openCSV(url).then(() => {
+			  _this.plotManager.clearChart(); 
+			  _this.plotManager.plotAll();
 			  _this.settingsChanged();
 		  });
 	  }
 	  
 	  this.exportSettings = function() {
-		  var settingsString = _this.blackfynnManager.exportStateAsString();
+		  var settingsString = _this.plotManager.exportStateAsString();
 		  if (typeof settingsString === 'string' || settingsString instanceof String) {
 			  var json = JSON.parse(settingsString);
 			  json.dialog = _this.typeName;
@@ -85,7 +85,7 @@ var BFCSVExporterDialog = function(moduleIn, parentIn, options) {
   
   var resizeCallback = function() {
 	  return function() {
-		  _myInstance.module.blackfynnManager.updateSize();
+		  _myInstance.module.plotManager.updateSize();
 	  }
   }  
   
