@@ -44,6 +44,8 @@ var FlatmapsDialog = function(moduleIn, parentIn, options) {
 
   var initialiseFlatmapsDialog = function() {
 	  var target = _myInstance.container[0].querySelector("#map1");
+	  if (target.parentElement)
+		  target.parentElement.style.padding = "0";
 	  var promise1 = mapManager.loadMap(flatmapEntry, target,
 			  { fullscreenControl: false, annotatable: false });
 	  promise1.then(function(returnedObject){

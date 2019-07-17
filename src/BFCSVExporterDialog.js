@@ -91,6 +91,8 @@ var BFCSVExporterDialog = function(moduleIn, parentIn, options) {
   
   var initialiseBlackfynnCSVExporterDialog = function() {
 	  var target = _myInstance.container[0].querySelector("#blackfynn-panel");
+	  if (target.parentElement)
+		  target.parentElement.style.padding = "0";
 	  _myInstance.module.initialise(target);
 	  _myInstance.resizeStopCallbacks.push(resizeCallback());
   }
