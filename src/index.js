@@ -2,12 +2,9 @@ var FlatmapsDialog = require("./flatmapsDialog").FlatmapsDialog;
 var FlatmapsModule = require("./flatmapsDialog").FlatmapsModule;
 var BFCSVExporterDialog = require("./BFCSVExporterDialog").BFCSVExporterDialog;
 var BFCSVExporterModule = require("./BFCSVExporterDialog").BFCSVExporterModule;
-var FDIKBQueryDialog = require("./fdikbqueryDialog").FDIKBQueryDialog;
-var FDIKBQueryModule = require("./fdikbqueryDialog").FDIKBQueryModule;
 exports.FlatmapsDialog = FlatmapsDialog;
 exports.FlatmapsModule = FlatmapsModule;
 exports.BFCSVExporterDialog = BFCSVExporterDialog;
 exports.BFCSVExporterModule = BFCSVExporterModule;
-exports.FDIKBQueryDialog = FDIKBQueryDialog;
-exports.FDIKBQueryModule = FDIKBQueryModule;
 exports.physiomeportal = require("physiomeportal");
+require('physiomeportal/src/styles/dat-gui-swec.css')
