@@ -1,6 +1,6 @@
-var physiomeportal = require("physiomeportal");
 var BlackfynnManager = require('blackfynn-csv-exporter').BlackfynnManager;
 var BroadcastChannel = require('broadcast-channel');
+var physiomeportal = require("physiomeportal");
 
 var BFCSVExporterModule = function() {
 	  (physiomeportal.BaseModule).call(this);
@@ -13,10 +13,8 @@ var BFCSVExporterModule = function() {
 		  _this.settingsChanged();
 	  }
 	  
-	  this.initialise = function() {
-		  _this.blackfynnManager = new BlackfynnManager();
-		  _this.blackfynnManager.initialiseBlackfynnPanel();
-		  _this.blackfynnManager.clearChart();
+	  this.initialise = function(parent) {
+		  _this.blackfynnManager = new BlackfynnManager(parent);
 		  _this.loadFromState(state);
 		  bc = _this.blackfynnManager.openBroadcastChannel("dataviewer");
 		  bc = new BroadcastChannel.default('sparc-portal');
@@ -31,6 +29,15 @@ var BFCSVExporterModule = function() {
 				  state = undefined;
 			  } else {
 				  state = stateIn;
+			  }
+		  }
+	  }
+	  
+	  this.loadFromString = function(string) {
+		  if (string) {
+			  if (_this.blackfynnManager) {
+				  _this.blackfynnManager.loadState(string);
+				  state = undefined;
 			  }
 		  }
 	  }
@@ -83,7 +90,8 @@ var BFCSVExporterDialog = function(moduleIn, parentIn, options) {
   }  
   
   var initialiseBlackfynnCSVExporterDialog = function() {
-	  _myInstance.module.initialise();
+	  var target = _myInstance.container[0].querySelector("#blackfynn-panel");
+	  _myInstance.module.initialise(target);
 	  _myInstance.resizeStopCallbacks.push(resizeCallback());
   }
 

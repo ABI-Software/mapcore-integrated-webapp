@@ -7,3 +7,4 @@ exports.FlatmapsModule = FlatmapsModule;
 exports.BFCSVExporterDialog = BFCSVExporterDialog;
 exports.BFCSVExporterModule = BFCSVExporterModule;
 exports.physiomeportal = require("physiomeportal");
+require('physiomeportal/src/styles/dat-gui-swec.css')
