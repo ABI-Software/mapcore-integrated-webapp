@@ -7,6 +7,56 @@ var BroadcastChannel = require('broadcast-channel');
 var FlatmapsModule = function() {
 	  (physiomeportal.BaseModule).call(this);
 	  this.typeName = "Flatmap";
+	  this.mapImp = undefined;
+	  var state = undefined;
+	  var channel = undefined;
+	  var _this = this;
+	  
+	  var processMessage = function(message) {
+		  switch(message.action) {
+			case "flatmap-activate-layer":
+			case "flatmap-deactivate-layer":
+				  _this.settingsChanged();
+				break;
+			default:
+				break;
+		  }
+	  }
+	  
+	  this.initialiseBroadcastCallback = function() {
+		  channel = new BroadcastChannel.default('sparc-mapcore-channel');
+		  channel.onmessage = processMessage;
+	  }
+	  
+
+	  this.initialise = function(flatmapEntry, target) {
+		  var promise1 = mapManager.loadMap(flatmapEntry, target,
+				  { fullscreenControl: false, annotatable: false });
+		  promise1.then(function(returnedObject){
+			  _this.mapImp = returnedObject;
+			  _this.initialiseBroadcastCallback();
+			  if (state) {
+				  _this.mapImp.setState(state);
+				  state = undefined;
+			  }
+		  });
+	  }
+	  
+	  this.exportSettings = function() {
+		  if (_this.mapImp) {
+			  var settings = _this.mapImp.getState();
+			  settings.dialog = _this.typeName;
+			  return settings;
+		  }
+		  return {};
+	  }
+	  
+	  this.importSettings = function(settings) {
+		  if (_this.mapImp)
+			  _this.loadFromState(settings);
+		  else
+			  state = settings;
+	  }
 }
 
 FlatmapsModule.prototype = Object.create(physiomeportal.BaseModule.prototype);
@@ -21,7 +71,6 @@ var FlatmapsDialog = function(moduleIn, parentIn, options) {
   }  
   (physiomeportal.BaseDialog).call(this, parentIn, options);
   this.module = moduleIn;
-  var eventNotifiers = [];
   var channel= undefined;
   var mapImp = undefined;
   var _myInstance = this;
@@ -32,23 +81,17 @@ var FlatmapsDialog = function(moduleIn, parentIn, options) {
   
   var resizeCallback = function() {
 	  return function() {
-		  if (mapImp)
-			  mapImp.resize();
+		  if (_myInstance.module.mapImp)
+			  _myInstance.module.mapImp.resize();
 	  }
   }
 
-  this.initaliseBroadcastCallback = function() {
-	  channel = new BroadcastChannel.default('sparc-portal');
-	  channel.addEventListener('message', broadcastCallback);
-  }
 
   var initialiseFlatmapsDialog = function() {
 	  var target = _myInstance.container[0].querySelector("#map1");
-	  var promise1 = mapManager.loadMap(flatmapEntry, target,
-			  { fullscreenControl: false, annotatable: false });
-	  promise1.then(function(returnedObject){
-		  mapImp = returnedObject;
-	  });
+	  if (target.parentElement)
+		  target.parentElement.style.padding = "0";
+	  _myInstance.module.initialise(flatmapEntry, target);
 	  _myInstance.resizeStopCallbacks.push(resizeCallback());
   }
 
