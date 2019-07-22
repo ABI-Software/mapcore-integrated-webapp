@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/ABI-Software/mapcore-integrated-webapp",
   "devDependencies": {
-    "blackfynn-csv-exporter": "^1.1.28",
+    "blackfynn-csv-exporter": "^1.1.40",
     "broadcast-channel": "^2.1.10",
     "css-loader": "^2.1.1",
     "file-loader": "^1.1.11",
