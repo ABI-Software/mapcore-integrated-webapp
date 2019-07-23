@@ -9,6 +9,7 @@ var BFCSVExporterModule = function() {
 	  this.plotManager = undefined;
 	  var state = undefined;
 	  var _this = this;
+	  
 	  var onMessage = function(message) {
 		  _this.settingsChanged();
 	  }
@@ -16,8 +17,8 @@ var BFCSVExporterModule = function() {
 	  this.initialise = function(parent) {
 		  _this.plotManager = new BlackfynnManager(parent);
 		  _this.loadFromState(state);
-		  bc = _this.plotManager.openBroadcastChannel("dataviewer");
-		  bc = new BroadcastChannel.default('sparc-portal');
+		  this.plotManager.openBroadcastChannel("dataviewer");
+		  bc = new BroadcastChannel.default('dataviewer');
 		  bc.addEventListener('message', onMessage);
 	  }
 	  
@@ -55,18 +56,22 @@ var BFCSVExporterModule = function() {
 		  if (typeof settingsString === 'string' || settingsString instanceof String) {
 			  var json = JSON.parse(settingsString);
 			  json.dialog = _this.typeName;
+			  json.name = _this.instanceName;
 			  return json;
 		  }
-		  return {dialog: _this.typeName};
+		  return {dialog: _this.typeName, name: _this.instanceName};
 	  }
 	  
 	  this.importSettings = function(settings) {
+		  _this.setName(settings.name);
 		  _this.loadFromState(settings);
 	  }
 
 	  this.destroy = function() {
 		  if (bc)
 			  bc.close();
+		  _this.plotManager = undefined;
+		  physiomeportal.BaseModule.prototype.destroy.call( _this );
 	  }
 }
 
