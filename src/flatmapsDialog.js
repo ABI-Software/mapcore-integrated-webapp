@@ -39,6 +39,7 @@ var FlatmapsModule = function() {
 				  _this.mapImp.setState(state);
 				  state = undefined;
 			  }
+			  _this.settingsChanged();
 		  });
 	  }
 	  
@@ -46,6 +47,7 @@ var FlatmapsModule = function() {
 		  if (_this.mapImp) {
 			  var settings = _this.mapImp.getState();
 			  settings.dialog = _this.typeName;
+			  settings.name = _this.instanceName;
 			  return settings;
 		  }
 		  return {};
@@ -56,6 +58,7 @@ var FlatmapsModule = function() {
 			  _this.loadFromState(settings);
 		  else
 			  state = settings;
+		  _this.setName(settings.name);
 	  }
 }
 
