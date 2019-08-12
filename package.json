@@ -36,6 +36,7 @@
   },
   "homepage": "https://github.com/ABI-Software/mapcore-integrated-webapp",
   "devDependencies": {
+    "@dbrnz/flatmap-viewer": "^0.8.10",
     "blackfynn-csv-exporter": "^1.1.42",
     "broadcast-channel": "^2.1.10",
     "css-loader": "^2.1.1",

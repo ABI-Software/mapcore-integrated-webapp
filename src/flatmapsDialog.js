@@ -1,12 +1,12 @@
 require('./styles/flatmapsDialog.css');
-var flatmap = require("./flatmaps/src/flatmap");
+var flatmap = require("@dbrnz/flatmap-viewer");
 var physiomeportal = require("physiomeportal");
-var utils = require('./flatmaps/src/utils.js');
 var BroadcastChannel = require('broadcast-channel');
 
 var FlatmapsModule = function() {
 	  (physiomeportal.BaseModule).call(this);
 	  this.typeName = "Flatmap";
+	  var mapManager = new flatmap.MapManager();
 	  this.mapImp = undefined;
 	  var state = undefined;
 	  var channel = undefined;
@@ -67,7 +67,6 @@ exports.FlatmapsModule = FlatmapsModule;
 
 var FlatmapsDialog = function(moduleIn, parentIn, options) {
   var flatmapEntry = "NCBITaxon:9606";
-  mapManager = new flatmap.MapManager();
   if (options) {
 	  if (options.flatmapEntry)
 		  flatmapEntry = options.flatmapEntry;
