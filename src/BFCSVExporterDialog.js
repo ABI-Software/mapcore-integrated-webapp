@@ -1,4 +1,4 @@
-var BlackfynnManager = require('blackfynn-csv-exporter').BlackfynnManager;
+var Plotsvy = require('plotsvy').Plotsvy;
 var BroadcastChannel = require('broadcast-channel');
 var physiomeportal = require("physiomeportal");
 
@@ -15,7 +15,7 @@ var BFCSVExporterModule = function() {
 	  }
 	  
 	  this.initialise = function(parent) {
-		  _this.plotManager = new BlackfynnManager(parent);
+		  _this.plotManager = new Plotsvy(parent);
 		  _this.loadFromState(state);
 		  this.plotManager.openBroadcastChannel("dataviewer");
 		  bc = new BroadcastChannel.default('dataviewer');
@@ -45,8 +45,6 @@ var BFCSVExporterModule = function() {
 	  
 	  this.openCSV = function(url) {
 		  _this.plotManager.openCSV(url).then(() => {
-			  _this.plotManager.clearChart(); 
-			  _this.plotManager.plotAll();
 			  _this.settingsChanged();
 		  });
 	  }
@@ -95,7 +93,7 @@ var BFCSVExporterDialog = function(moduleIn, parentIn, options) {
   }  
   
   var initialiseBlackfynnCSVExporterDialog = function() {
-	  var target = _myInstance.container[0].querySelector("#blackfynn-panel");
+	  var target = _myInstance.container[0].querySelector("#plotsvy-example-panel");
 	  if (target.parentElement)
 		  target.parentElement.style.padding = "0";
 	  _myInstance.module.initialise(target);
@@ -111,7 +109,7 @@ var BFCSVExporterDialog = function(moduleIn, parentIn, options) {
   }
 
   var initialise = function() {
-    _myInstance.create(require("./snippets/bf.html"));
+    _myInstance.create(require("./snippets/plotsvy.html"));
     _myInstance.module.addChangedCallback(bfCSVExporterChangedCallback());
     initialiseBlackfynnCSVExporterDialog();
   }
