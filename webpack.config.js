@@ -1,12 +1,10 @@
 var path = require('path');
 var webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   mode: "none",
   entry: {
-    "mapcorewebapp": "./src/index.js",
-    "mapcorewebapp.min": "./src/index.js",
+    "mapcorewebapp": "./src/index.js"
   },
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -27,13 +25,5 @@ module.exports = {
       },
       { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' }
     ]
-  },
-  plugins: [
-    new UglifyJsPlugin({
-      include: /\.min\.js$/,
-      uglifyOptions: {
-        compress: true
-      }
-    })
-  ]
+  }
 };

@@ -43,7 +43,6 @@
     "html-loader": "^0.5.5",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.21.0",
-    "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
@@ -51,7 +50,7 @@
   },
   "dependencies": {
     "@dbrnz/flatmap-viewer": "^0.8.10",
-    "blackfynn-csv-exporter": "^1.1.42",
+    "plotsvy": "^0.1.7",
     "broadcast-channel": "^2.1.10",
     "css-loader": "^2.1.1",
     "physiomeportal": "^0.4.4",
