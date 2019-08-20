@@ -1,3 +1,0 @@
-[submodule "src/flatmap-mvt-viewer"]
-	path = src/flatmaps
-	url = https://github.com/dbrnz/flatmap-mvt-viewer.git

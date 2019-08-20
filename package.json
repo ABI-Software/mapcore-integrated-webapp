@@ -1,18 +1,17 @@
 {
   "name": "mapcoreintegratedwebapp",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "MAPcore Integrated Webapp",
-  "main": "build/mapcorewebapp.min.js",
+  "main": "build/mapcorewebapp.js",
   "files": [
     "package.json",
     "LICENSE.txt",
     "README.md",
     "build/mapcorewebapp.js",
-    "build/mapcorewebapp.min.js",
     "webpack.config.js"
   ],
   "scripts": {
-    "build": "webpack --mode=none",
+    "build": "webpack --mode=production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -36,18 +35,25 @@
   },
   "homepage": "https://github.com/ABI-Software/mapcore-integrated-webapp",
   "devDependencies": {
-    "broadcast-channel": "^2.1.10",
-    "css-loader": "^2.1.1",
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "babel-loader": "^8.0.5",
+    "babel-preset-minify": "^0.5.0",
     "file-loader": "^1.1.11",
     "html-loader": "^0.5.5",
-    "physiomeportal": "^0.4.2",
-    "plotsvy": "^0.1.7",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.21.0",
-    "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
     "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.1"
+    "webpack-cli": "^3.1.1",
+    "webpack-node-externals": "^1.7.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@dbrnz/flatmap-viewer": "^0.8.10",
+    "plotsvy": "^0.1.7",
+    "broadcast-channel": "^2.1.10",
+    "css-loader": "^2.1.1",
+    "physiomeportal": "^0.4.4",
+    "webpack-bundle-analyzer": "^3.4.1"
+  }
 }
