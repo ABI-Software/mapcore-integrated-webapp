@@ -1,6 +1,6 @@
 {
   "name": "mapcoreintegratedwebapp",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "MAPcore Integrated Webapp",
   "main": "build/mapcorewebapp.js",
   "files": [
@@ -46,13 +46,14 @@
     "url-loader": "^1.0.1",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-node-externals": "^1.7.2",
+    "esm": ">=3.1.0"
   },
   "dependencies": {
     "@dbrnz/flatmap-viewer": "^0.8.10",
     "broadcast-channel": "^2.1.10",
     "css-loader": "^2.1.1",
-    "physiomeportal": "^0.4.4",
+    "physiomeportal": "^0.4.5",
     "plotsvy": "^0.3.4",
     "webpack-bundle-analyzer": "^3.4.1"
   }
