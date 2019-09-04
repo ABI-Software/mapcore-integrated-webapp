@@ -1,3 +1,4 @@
+require('./styles/plotsvyDialog.css');
 var Plotsvy = require('plotsvy');
 var BroadcastChannel = require('broadcast-channel');
 var physiomeportal = require("physiomeportal");
@@ -97,7 +98,7 @@ var PlotsvyDialog = function(moduleIn, parentIn, options) {
   }  
   
   var initialiseBlackfynnCSVExporterDialog = function() {
-	  var target = _myInstance.container[0].querySelector("#plotsvy-div");
+	  var target = _myInstance.container[0].querySelector(".plotsvyClass");
 	  if (target.parentElement)
 		  target.parentElement.style.padding = "0";
 	  _myInstance.module.initialise(target, options.url);

@@ -54,7 +54,7 @@
     "broadcast-channel": "^2.1.10",
     "css-loader": "^2.1.1",
     "physiomeportal": "^0.4.5",
-    "plotsvy": "^0.3.4",
+    "plotsvy": "^0.3.7",
     "webpack-bundle-analyzer": "^3.4.1"
   }
 }
