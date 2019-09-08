@@ -1,12 +1,14 @@
-var Plotsvy = require('plotsvy').Plotsvy;
+require('./styles/plotsvyDialog.css');
+var Plotsvy = require('plotsvy');
 var BroadcastChannel = require('broadcast-channel');
 var physiomeportal = require("physiomeportal");
 
-var BFCSVExporterModule = function() {
+var PlotsvyModule = function() {
 	  (physiomeportal.BaseModule).call(this);
 	  this.typeName = "Data Viewer";
 	  var bc = undefined;
 	  this.plotManager = undefined;
+	  this.url = undefined
 	  var state = undefined;
 	  var _this = this;
 	  
@@ -14,8 +16,8 @@ var BFCSVExporterModule = function() {
 		  _this.settingsChanged();
 	  }
 	  
-	  this.initialise = function(parent) {
-		  _this.plotManager = new Plotsvy(parent);
+	  this.initialise = function(parent, url) {
+		  _this.plotManager = new Plotsvy(parent, url);
 		  _this.loadFromState(state);
 		  this.plotManager.openBroadcastChannel("dataviewer");
 		  bc = new BroadcastChannel.default('dataviewer');
@@ -50,6 +52,9 @@ var BFCSVExporterModule = function() {
 	  }
 	  
 	  this.exportSettings = function() {
+		  if (_this.plotManager === undefined){
+			  return
+		  }
 		  var settingsString = _this.plotManager.exportStateAsString();
 		  if (typeof settingsString === 'string' || settingsString instanceof String) {
 			  var json = JSON.parse(settingsString);
@@ -73,10 +78,10 @@ var BFCSVExporterModule = function() {
 	  }
 }
 
-BFCSVExporterModule.prototype = Object.create(physiomeportal.BaseModule.prototype);
-exports.BFCSVExporterModule = BFCSVExporterModule;
+PlotsvyModule.prototype = Object.create(physiomeportal.BaseModule.prototype);
+exports.PlotsvyModule = PlotsvyModule;
 
-var BFCSVExporterDialog = function(moduleIn, parentIn, options) {
+var PlotsvyDialog = function(moduleIn, parentIn, options) {
   (physiomeportal.BaseDialog).call(this, parentIn, options);
   this.module = moduleIn;
   var eventNotifiers = [];
@@ -93,14 +98,14 @@ var BFCSVExporterDialog = function(moduleIn, parentIn, options) {
   }  
   
   var initialiseBlackfynnCSVExporterDialog = function() {
-	  var target = _myInstance.container[0].querySelector("#plotsvy-example-panel");
+	  var target = _myInstance.container[0].querySelector(".plotsvyClass");
 	  if (target.parentElement)
 		  target.parentElement.style.padding = "0";
-	  _myInstance.module.initialise(target);
+	  _myInstance.module.initialise(target, options.url);
 	  _myInstance.resizeStopCallbacks.push(resizeCallback());
   }
 
-  var bfCSVExporterChangedCallback = function() {
+  var plotsvyChangedCallback = function() {
     return function(module, change) {
       if (change === physiomeportal.MODULE_CHANGE.NAME_CHANGED) {
         _myInstance.setTitle(module.getName());
@@ -110,12 +115,12 @@ var BFCSVExporterDialog = function(moduleIn, parentIn, options) {
 
   var initialise = function() {
     _myInstance.create(require("./snippets/plotsvy.html"));
-    _myInstance.module.addChangedCallback(bfCSVExporterChangedCallback());
+    _myInstance.module.addChangedCallback(plotsvyChangedCallback());
     initialiseBlackfynnCSVExporterDialog();
   }
   
   initialise();
 }
 
-BFCSVExporterDialog.prototype = Object.create(physiomeportal.BaseDialog.prototype);
-exports.BFCSVExporterDialog = BFCSVExporterDialog;
+PlotsvyDialog.prototype = Object.create(physiomeportal.BaseDialog.prototype);
+exports.PlotsvyDialog = PlotsvyDialog;
