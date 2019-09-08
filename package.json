@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@dbrnz/flatmap-viewer": "^0.8.10",
+    "@abi-software/mapcore-osparc-remote-interface": "^0.1.0",
     "plotsvy": "^0.1.7",
     "broadcast-channel": "^2.1.10",
     "css-loader": "^2.1.1",
