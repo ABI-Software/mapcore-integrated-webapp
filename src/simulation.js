@@ -8,16 +8,8 @@ let SimulationModule = function () {
   let state = undefined;
   let _this = this;
 
-  this.initialise = function (options) {
-    console.log("initialise simulation module");
-    console.log(options);
-    _interfaceModule = new MAPCoreOSparcRemoteInterfacePackage.MAPCoreOSparcRemoteInterfaceModule(options);
-  };
-
-  this.createUi = function() {
-    console.log("Create UI.");
-    console.log(_interfaceModule);
-    return _interfaceModule.createUi()
+  this.initialise = function (target, options) {
+    _interfaceModule = new MAPCoreOSparcRemoteInterfacePackage.MAPCoreOSparcRemoteInterfaceModule(target, options);
   };
 
   this.loadFromState = function (stateIn) {
@@ -72,12 +64,12 @@ let SimulationDialog = function (moduleIn, parentIn, options) {
   };
 
   let initialise = function (options) {
-    _myInstance.module.initialise(options);
-    _myInstance.create(_myInstance.module.createUi());
+    _myInstance.create();
     let target = _myInstance.container[0];
     if (target) {
       target.style.padding = "0";
     }
+    _myInstance.module.initialise(target, options);
     _myInstance.resizeStopCallbacks.push(resizeCallback())
   };
 
