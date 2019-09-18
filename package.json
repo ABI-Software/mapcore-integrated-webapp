@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "@abi-software/mapcore-osparc-remote-interface": "^0.1.0",
+    "@abi-software/mapcore-biolucida-interface": "^0.1.0",
     "@dbrnz/flatmap-viewer": "^0.8.10",
     "broadcast-channel": "^2.1.10",
     "css-loader": "^2.1.1",
