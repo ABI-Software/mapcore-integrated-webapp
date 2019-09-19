@@ -2,3 +2,5 @@
 build
 node_modules
 static/models
+# PyCharm IDE files
+.idea/
