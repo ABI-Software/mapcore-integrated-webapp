@@ -1,6 +1,6 @@
 {
   "name": "mapcoreintegratedwebapp",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "MAPcore Integrated Webapp",
   "main": "build/mapcorewebapp.js",
   "files": [
@@ -35,8 +35,8 @@
   },
   "homepage": "https://github.com/ABI-Software/mapcore-integrated-webapp",
   "devDependencies": {
-    "@babel/core": "^7.4.0",
-    "@babel/preset-env": "^7.4.2",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
     "babel-loader": "^8.0.5",
     "babel-preset-minify": "^0.5.0",
     "esm": "^3.2.25",
@@ -45,18 +45,17 @@
     "raw-loader": "^0.5.1",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.1",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9",
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
-    "@abi-software/mapcore-osparc-remote-interface": "^0.1.0",
     "@abi-software/mapcore-biolucida-interface": "^0.1.0",
+    "@abi-software/mapcore-osparc-remote-interface": "^0.1.2",
     "@dbrnz/flatmap-viewer": "^0.8.10",
     "broadcast-channel": "^2.1.10",
     "css-loader": "^2.1.1",
     "physiomeportal": "^0.4.6",
-    "plotsvy": "^0.3.7",
-    "webpack-bundle-analyzer": "^3.4.1"
+    "plotsvy": "^0.3.7"
   }
 }
