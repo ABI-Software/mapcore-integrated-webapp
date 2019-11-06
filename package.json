@@ -56,6 +56,6 @@
     "broadcast-channel": "^2.1.10",
     "css-loader": "^2.1.1",
     "physiomeportal": "^0.4.8",
-    "plotsvy": "^0.3.7"
+    "plotsvy": "^0.3.10"
   }
 }
