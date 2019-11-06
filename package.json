@@ -1,6 +1,6 @@
 {
   "name": "mapcoreintegratedwebapp",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "MAPcore Integrated Webapp",
   "main": "build/mapcorewebapp.js",
   "files": [
@@ -55,7 +55,7 @@
     "@dbrnz/flatmap-viewer": "^0.8.10",
     "broadcast-channel": "^2.1.10",
     "css-loader": "^2.1.1",
-    "physiomeportal": "^0.4.6",
+    "physiomeportal": "^0.4.8",
     "plotsvy": "^0.3.7"
   }
 }
